@@ -33,4 +33,8 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             self.reply(503,{"sent":False,"error":"Telegram not configured or delivery failed"})
 if __name__=="__main__":
+    try:
+        print("TELEGRAM_DELIVERY_TEST", "OK" if send_test() else "NOT_OK", flush=True)
+    except Exception as e:
+        print("TELEGRAM_DELIVERY_TEST_ERROR", type(e).__name__, str(e).split(" for url:")[0][:150], flush=True)
     ThreadingHTTPServer(("0.0.0.0",int(os.getenv("PORT","10000"))),Handler).serve_forever()
